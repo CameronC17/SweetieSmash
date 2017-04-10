@@ -1,10 +1,13 @@
 #pragma once
 
+#include "Level.h"
+
 class Game {
 private:
-	int count;
+	Level _lvl;
 public:
 	Game();
-	void increment();
-	int retrieve();
+	void newLevel();
+	void endLevel();
+	void draw();
 };

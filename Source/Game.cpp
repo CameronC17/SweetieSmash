@@ -1,13 +1,18 @@
 #include "Game.h";
 
 Game::Game() {
-	count = 0;
+
 }
 
-void Game::increment() {
-	count++;
+void Game::newLevel() {
+	_lvl = Level(5, 5);
+	draw();
 }
 
-int Game::retrieve() {
-	return count;
+void Game::endLevel() {
+
+}
+
+void Game::draw() {
+	_lvl.draw();
 }
