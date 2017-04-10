@@ -1,7 +1,11 @@
 #include <iostream>
+#include "Game.h"
 
 using namespace std;
 
 int main() {
-	cout << "hello world";
+	Game g = Game();
+	cout << g.retrieve() << endl;
+	g.increment();
+	cout << g.retrieve() << endl;
 }
