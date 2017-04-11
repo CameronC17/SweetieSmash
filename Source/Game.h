@@ -5,6 +5,7 @@
 class Game {
 private:
 	Level _lvl;
+    void getInput();
 public:
 	Game();
 	void newLevel();

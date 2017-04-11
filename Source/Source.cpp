@@ -6,6 +6,8 @@
 
 void checkForPlayerInput(char *choice) {
 	char input;
+    std::cout << std::string(60, '\n');
+    std::cout << "What would you like to do?" << std::endl;
 	std::cout << "p: Play game // q: quit" << std::endl;
 	std::cin >> input;
 	*choice = input;
@@ -14,7 +16,7 @@ void checkForPlayerInput(char *choice) {
 int main() {
 	char choice;
 	Game g = Game();
-	std::cout << "New game created. What would you like to do?" << std::endl;
+	std::cout << "WELCOME TO SWEETIE SMASH" << std::endl;
 	checkForPlayerInput(&choice);
 	
 	while (choice != QUIT) {
@@ -31,4 +33,5 @@ int main() {
 	}
 
 	std::cout << "Thanks for playing. See ya later!" << std::endl;
+    return 0;
 }
