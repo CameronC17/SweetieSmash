@@ -10,19 +10,21 @@ Level::Level() {
 
 Level::Level(int x, int y) : _width(x), _height(y) {
     generateBlocks();
-    createRow();
 }
 
 Level::~Level() {
 //	for (int i = 0; i < _width; i++)
-//		delete[] blocks[i];
-//	delete[] blocks;
+//		delete[] _blocks[i];
+//	delete[] _blocks;
 }
 
 void Level::generateBlocks() {
-    //blocks.resize(_height);
+    _blocks.resize(_height);
     srand((unsigned) time(NULL));
-    //std::generate_n(std::back_inserter(blocks), _height, createRow());
+    //std::generate_n(std::back_inserter(_blocks), _height, createRow());
+    for (int i = 0; i < _height; i++) {
+        _blocks.push_back(createRow());
+    }
 }
 
 std::vector<char> Level::createRow() {
@@ -31,8 +33,8 @@ std::vector<char> Level::createRow() {
     for (int i = 0; i < _width; i++) {
        row.push_back(createTile(5));
     }
-    std::ostream_iterator< char > output( std::cout, " " ); //useful
-    std::copy(row.begin(), row.end(), output);  //useful
+    //std::ostream_iterator< char > output( std::cout, " " ); //useful
+    //std::copy(row.begin(), row.end(), output);  //useful
     return row;
 }
 
@@ -74,6 +76,10 @@ char Level::createTile(int difficulty) {
             break;
         default:
             return 'Z';
-            
+
     }
+}
+
+std::vector<char>* Level::getRow(int n) {
+    return _blocks.at(n);
 }

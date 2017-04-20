@@ -1,11 +1,14 @@
 #define CTRL_CHAR '-'
 #define MSG_SPACE 58
+#define ROW_SPACE 60
 
 #include "Game.h"
 #include <iostream>
+#include <vector>
 
 Game::Game() {
-
+    _width = 5;
+    _height = 5;
 }
 
 void Game::getInput() {
@@ -26,7 +29,7 @@ void Game::processInput(std::string input) {
 }
 
 void Game::newLevel() {
-    _lvl = Level(5, 5);
+    _lvl = Level(_width, _height);
     draw();
 }
 
@@ -81,24 +84,29 @@ void Game::messagePanel() {
 }
 
 void Game::gamePanel() {
-    std::cout << "// 1|                                                            | //" << std::endl;
-    std::cout << "// 2|                                                            | //" << std::endl;
-    std::cout << "// 3|                                                            | //" << std::endl;
-    std::cout << "// 4|                                                            | //" << std::endl;
-    std::cout << "// 5|                                                            | //" << std::endl;
-    std::cout << "// 6|                                                            | //" << std::endl;
-    std::cout << "// 7|                                                            | //" << std::endl;
-    std::cout << "// 8|                                                            | //" << std::endl;
-    std::cout << "// 9|                                                            | //" << std::endl;
-    std::cout << "//10|                                                            | //" << std::endl;
-    std::cout << "//11|                                                            | //" << std::endl;
-    std::cout << "//12|                                                            | //" << std::endl;
-    std::cout << "//13|                                                            | //" << std::endl;
-    std::cout << "//14|                                                            | //" << std::endl;
-    std::cout << "//15|                                                            | //" << std::endl;
-    std::cout << "//16|                                                            | //" << std::endl;
-    std::cout << "//17|                                                            | //" << std::endl;
-    std::cout << "//18|                                                            | //" << std::endl;
-    std::cout << "//19|                                                            | //" << std::endl;
-    std::cout << "//20|                                                            | //" << std::endl;
+    for (int rowNumber = 1; rowNumber < 21; rowNumber++) {
+        printRow(rowNumber);
+    }
+}
+
+void Game::printRow(int rowNumber) {
+    //were gonna build the string here
+    //std::cout << "//" << rowNumber << "|                                                            | //" << std::endl;
+    std::string row = "//";
+    if (rowNumber < 10) { row += ' '; }
+    row += std::to_string(rowNumber);
+    row += "|";
+    if (rowNumber - 1 < _height) {
+        std::vector<char> v = _lvl.getRow(rowNumber - 1);
+        std::ostream_iterator<char> output( std::cout, " " ); //useful
+        //std::copy(&v->begin(), &v->end(), output);  //useful
+        //for (int i = 0; i < _width; i++) {
+            row += v->at(0);
+        //}
+    } else {
+        row.append(ROW_SPACE, ' ');
+    }
+    row += "| //";
+
+    std::cout << row << std::endl;
 }

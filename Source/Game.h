@@ -5,6 +5,7 @@
 
 class Game {
 private:
+	int _width, _height;
 	Level _lvl;
 	std::string _msg;
 
@@ -13,6 +14,7 @@ private:
     void topBar();
     void bottomBar();
     void gamePanel();
+	void printRow(int);
 	void messagePanel();
 public:
 	Game();
