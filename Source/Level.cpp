@@ -1,76 +1,79 @@
 #include "Level.h"
 #include <iostream>
 #include <string>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 Level::Level() {
-
+    std::cout << "You've tried to create a level without any size." << std::endl;
 }
 
 Level::Level(int x, int y) : _width(x), _height(y) {
-	blocks = new char*[_width];
-	for (int i = 0; i < _width; i++)
-		blocks[i] = new char[_height];
-    
     generateBlocks();
+    createRow();
 }
 
 Level::~Level() {
-	for (int i = 0; i < _width; i++)
-		delete[] blocks[i];
-	delete[] blocks;
+//	for (int i = 0; i < _width; i++)
+//		delete[] blocks[i];
+//	delete[] blocks;
 }
 
 void Level::generateBlocks() {
-    std::cout << "Length is: " << **blocks.size() << std::endl;
+    //blocks.resize(_height);
+    srand((unsigned) time(NULL));
+    //std::generate_n(std::back_inserter(blocks), _height, createRow());
 }
 
-void Level::topBar() {
-	std::cout << "/////////////////////////////////////////////////////////////////////" << std::endl;
-	std::cout << "/////////                    SWEETIE SMASH               ////////////" << std::endl;
-	std::cout << "/////////        Lives: BLAH       POINTS: ALSO BLAH     ////////////" << std::endl;
-	std::cout << "/////////////////////////////////////////////////////////////////////" << std::endl;
-	std::cout << "//    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T   //" << std::endl;
-	std::cout << "//   ------------------------------------------------------------  //" << std::endl;
+std::vector<char> Level::createRow() {
+    std::vector<char> row (_width);
+    //std::fill(row.begin(), row.end(), createTile());
+    for (int i = 0; i < _width; i++) {
+       row.push_back(createTile(5));
+    }
+    std::ostream_iterator< char > output( std::cout, " " ); //useful
+    std::copy(row.begin(), row.end(), output);  //useful
+    return row;
 }
 
-void Level::bottomBar() {
-    std::cout << "//   ------------------------------------------------------------  //" << std::endl;
-    std::cout << "//                                                                 //" << std::endl;
-    std::cout << "/////////////////////////////////////////////////////////////////////" << std::endl;
-    std::cout << "/////                          Level X                         //////" << std::endl;
-    std::cout << "/////                                                          //////" << std::endl;
-    std::cout << "/////////////////////////////////////////////////////////////////////" << std::endl;
+char Level::createTile(int difficulty) {
+    int r = rand() % difficulty; //rnd between 0 and
+    switch (r) {
+        case 0:
+            return 'a';
+            break;
+        case 1:
+            return 'b';
+            break;
+        case 2:
+            return 'c';
+            break;
+        case 3:
+            return 'd';
+            break;
+        case 4:
+            return 'e';
+            break;
+        case 5:
+            return 'f';
+            break;
+        case 6:
+            return 'g';
+            break;
+        case 7:
+            return 'h';
+            break;
+        case 8:
+            return 'i';
+            break;
+        case 9:
+            return 'j';
+            break;
+        case 10:
+            return 'k';
+            break;
+        default:
+            return 'Z';
+            
+    }
 }
-
-void Level::gamePanel() {
-    std::cout << "// 1|                                                            | //" << std::endl;
-    std::cout << "// 2|                                                            | //" << std::endl;
-    std::cout << "// 3|                                                            | //" << std::endl;
-    std::cout << "// 4|                                                            | //" << std::endl;
-    std::cout << "// 5|                                                            | //" << std::endl;
-    std::cout << "// 6|                                                            | //" << std::endl;
-    std::cout << "// 7|                                                            | //" << std::endl;
-    std::cout << "// 8|                                                            | //" << std::endl;
-    std::cout << "// 9|                                                            | //" << std::endl;
-    std::cout << "//10|                                                            | //" << std::endl;
-    std::cout << "//11|                                                            | //" << std::endl;
-    std::cout << "//12|                                                            | //" << std::endl;
-    std::cout << "//13|                                                            | //" << std::endl;
-    std::cout << "//14|                                                            | //" << std::endl;
-    std::cout << "//15|                                                            | //" << std::endl;
-    std::cout << "//16|                                                            | //" << std::endl;
-    std::cout << "//17|                                                            | //" << std::endl;
-    std::cout << "//18|                                                            | //" << std::endl;
-    std::cout << "//19|                                                            | //" << std::endl;
-    std::cout << "//20|                                                            | //" << std::endl;
-}
-
-void Level::draw() {
-	//clear the console. lol this is not a hack i promise
-	std::cout << std::string(60, '\n');
-
-	topBar();
-    gamePanel();
-    bottomBar();
-}
-
