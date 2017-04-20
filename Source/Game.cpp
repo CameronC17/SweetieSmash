@@ -1,4 +1,5 @@
 #define CTRL_CHAR '-'
+#define MSG_SPACE 58
 
 #include "Game.h"
 #include <iostream>
@@ -17,9 +18,9 @@ void Game::getInput() {
 void Game::processInput(std::string input) {
     //checking if the user has entered a command
     if (input.at(0) == CTRL_CHAR) {
-        _message = "Player has entered a command";
+        _msg = "Player has entered a command";
     } else {
-        _message = "Player has entered a move";
+        _msg = "Player has entered a move";
     }
     draw();
 }
@@ -64,7 +65,19 @@ void Game::bottomBar() {
 
 void Game::messagePanel() {
     //58 spaces
-    std::cout << "/////                                                          //////" << std::endl;
+    int textSize = _msg.size();
+    if (textSize == 0) {
+        std::cout << "/////                                                          //////" << std::endl;
+    } else {
+        std::string infoLine = "/////";
+        int spacing = (MSG_SPACE / 2) - ((int) textSize / 2);
+        infoLine.append(spacing, ' ');
+        infoLine += _msg;
+        infoLine.append(spacing, ' ');
+        if (textSize % 2 == 0) { infoLine += ' '; }
+        infoLine += "/////";
+        std::cout << infoLine << std::endl;
+    }
 }
 
 void Game::gamePanel() {

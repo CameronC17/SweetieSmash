@@ -1,11 +1,12 @@
 #pragma once
 
+#include <string>
 #include "Level.h"
 
 class Game {
 private:
 	Level _lvl;
-	std::string _message;
+	std::string _msg;
 
     void getInput();
 	void processInput(std::string);
