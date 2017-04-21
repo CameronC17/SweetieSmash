@@ -4,9 +4,10 @@
 #include <iostream>
 #include "Game.h"
 
-char checkForPlayerInput() {
+char checkForPlayerInput(bool clear) {
 	char input;
-    std::cout << std::string(60, '\n');
+	if (clear)
+    	std::cout << std::string(60, '\n');
     std::cout << "What would you like to do?" << std::endl;
 	std::cout << "p: Play game // q: quit" << std::endl;
 	std::cin >> input;
@@ -17,19 +18,21 @@ int main() {
 	char choice;
 	Game g = Game();
 	std::cout << "WELCOME TO SWEETIE SMASH" << std::endl;
-	choice = checkForPlayerInput();
+	choice = checkForPlayerInput(false);
 
 	while (choice != QUIT) {
 		switch (choice) {
 		case PLAY:
 			g.newLevel();
 			break;
+		case QUIT:
+			break;
 		default:
 			std::cout << "Unknown command: " << choice << ". Please try again." << std::endl;
 			break;
 		}
 
-		choice = checkForPlayerInput();
+		choice = checkForPlayerInput(true);
 	}
 
 	std::cout << "Thanks for playing. See ya later!" << std::endl;

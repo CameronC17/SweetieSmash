@@ -1,6 +1,7 @@
 #define CTRL_CHAR '-'
 #define MSG_SPACE 58
 #define ROW_SPACE 60
+#define CLEAR_LINE 20
 
 #include "Game.h"
 #include <iostream>
@@ -8,8 +9,8 @@
 #include <sstream>
 
 Game::Game() {
-    _width = 5;
-    _height = 5;
+    _width = 3;
+    _height = 3;
 }
 
 void Game::getInput() {
@@ -40,7 +41,7 @@ void Game::endLevel() {
 
 void Game::draw() {
     //clear the console. lol this is not a hack i promise
-    std::cout << std::string(60, '\n');
+    std::cout << std::string(CLEAR_LINE, '\n');
 
     topBar();
     gamePanel();
