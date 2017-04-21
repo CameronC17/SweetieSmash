@@ -19,7 +19,6 @@ Level::~Level() {
 }
 
 void Level::generateBlocks() {
-    _blocks.resize(_height);
     srand((unsigned) time(NULL));
     //std::generate_n(std::back_inserter(_blocks), _height, createRow());
     for (int i = 0; i < _height; i++) {
@@ -28,7 +27,7 @@ void Level::generateBlocks() {
 }
 
 std::vector<char> Level::createRow() {
-    std::vector<char> row (_width);
+    std::vector<char> row;
     //std::fill(row.begin(), row.end(), createTile());
     for (int i = 0; i < _width; i++) {
        row.push_back(createTile(5));
@@ -39,7 +38,7 @@ std::vector<char> Level::createRow() {
 }
 
 char Level::createTile(int difficulty) {
-    int r = rand() % difficulty; //rnd between 0 and
+    int r = rand() % difficulty; //rnd between 0 and difficulty
     switch (r) {
         case 0:
             return 'a';
@@ -80,6 +79,6 @@ char Level::createTile(int difficulty) {
     }
 }
 
-std::vector<char>* Level::getRow(int n) {
+std::vector<char> Level::getRow(int n) {
     return _blocks.at(n);
 }

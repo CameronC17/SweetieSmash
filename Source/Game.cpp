@@ -5,6 +5,7 @@
 #include "Game.h"
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 Game::Game() {
     _width = 5;
@@ -85,7 +86,7 @@ void Game::messagePanel() {
 
 void Game::gamePanel() {
     for (int rowNumber = 1; rowNumber < 21; rowNumber++) {
-        printRow(rowNumber);
+       printRow(rowNumber);
     }
 }
 
@@ -96,16 +97,20 @@ void Game::printRow(int rowNumber) {
     if (rowNumber < 10) { row += ' '; }
     row += std::to_string(rowNumber);
     row += "|";
+    //actual drawing of tiles here
     if (rowNumber - 1 < _height) {
         std::vector<char> v = _lvl.getRow(rowNumber - 1);
-        std::ostream_iterator<char> output( std::cout, " " ); //useful
-        //std::copy(&v->begin(), &v->end(), output);  //useful
-        //for (int i = 0; i < _width; i++) {
-            row += v->at(0);
-        //}
+        for (int i = 0; i < _width; i++) {
+            row += ' ';
+            row += v.at(i);
+            row += ' ';
+        }
+        row.append((ROW_SPACE - (_width * 3)), ' ');
     } else {
         row.append(ROW_SPACE, ' ');
     }
+
+    //end tiles
     row += "| //";
 
     std::cout << row << std::endl;
