@@ -23,11 +23,41 @@ void Game::getInput() {
 void Game::processInput(std::string input) {
     //checking if the user has entered a command
     if (input.at(0) == CTRL_CHAR) {
-        _msg = "Player has entered a command";
+        processCommand(input);
     } else {
-        _msg = "Player has entered a move";
+        if (input.size() == 4)
+            processMove(input);
+        else
+            _msg = "Wrong entry format. Should be 4 chars.";
     }
     draw();
+}
+
+void Game::processMove(std::string move) {
+    //this line gets the first char of the input string, forces to lower case and then minuses 97, the ascii char for 'a'.
+    //this gives me an int value for what column the user has picked
+    int x = std::tolower(move.at(0)) - 97;
+
+    int y = std::stoi(move.substr(1, 2)); //gotta remember to take 1 off this when checking with the array!
+
+    char m = std::tolower(move.at(3));
+
+    //safety checks from user input
+    if (x >= 0 && x < 20 && y > 0 && y <= 20 && ((m == 'u') || (m == 'd') || (m == 'l') || (m == 'r'))) {
+        _msg = "Col is: " + std::to_string(x) + " and row is: " + std::to_string(y) + " moved " + m;
+        _lvl.moveTileCommand(x, y-1, m, _msg);
+    } else {
+        _msg = "There is an error with your input.";
+    }
+}
+
+void Game::processCommand(std::string command) {
+    if (command == "-r") {
+        _msg = "Reset command. New game started.";
+        newLevel();
+    } else {
+        _msg = "Unknown command. Please try again.";
+    }
 }
 
 void Game::newLevel() {

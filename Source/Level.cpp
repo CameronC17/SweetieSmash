@@ -9,7 +9,6 @@ Level::Level() {
 
 Level::Level(int x, int y) : _width(x), _height(y) {
     generateBlocks();
-    checkCombos();
 }
 
 
@@ -19,34 +18,39 @@ Level::~Level() {
 //	delete[] _blocks;
 }
 
+//this function is super messy and shit. come back to it please lol
 void Level::checkCombos() {
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
             char tile = _blocks.at(y).at(x);
-            int chain = checkTile(x, y, tile, 0);
-            //if ( > 2) {
-                std::cout << "x:" << x << " y: " << y << "  chain of: " << chain <<std::endl;
-            //}
+            int chain = 0;
+            checkTile(x, y, tile, 1, 0, chain);
+            if (chain > 2) {
+                for (int i = 0; i < chain; i++) {
+                    _blocks.at(y).at(x + i) = '$';
+                }
+            } else {
+                chain = 0;
+                checkTile(x, y, tile, 0, 1, chain);
+                if (chain > 2) {
+                    for (int i = 0; i < chain; i++) {
+                        _blocks.at(y + i).at(x) = '$';
+                    }
+                }
+            }
         }
     }
 }
 
-int Level::checkTile(int x, int y, char c, int count) {
-    //now we have to check before we do each check to ensure we dont go out of the range of the array
-    if (x >= 0 && x < _width && y >= 0 && y < _height) {
+void Level::checkTile(int x, int y, char c, int across, int down, int &chain) {
+    //safety check. cant be below 0 so dont need to check that
+    if (x < _width && y < _height) {
+        //if we've matched the tile
         if (_blocks.at(y).at(x) == c) {
-            count++;
-
-            if (x < _width) {
-                count = (checkTile(x + 1, y, c, count));
-            }
-            if (y < _height) {
-                count = (checkTile(x, y + 1, c, count));
-            }
+            chain++;
+            checkTile(x + across, y + down, c, across, down, chain);
         }
-
     }
-    return count;
 }
 
 void Level::generateBlocks() {
@@ -54,6 +58,42 @@ void Level::generateBlocks() {
     //std::generate_n(std::back_inserter(_blocks), _height, createRow());
     for (int i = 0; i < _height; i++) {
         _blocks.push_back(createRow());
+    }
+}
+
+void Level::moveTile(int x, int y, char move, std::string &msg) {
+    int vert, horz = 0;
+    if (move == 'l')
+        horz--;
+    else if (move == 'u')
+        vert--;
+    else if (move == 'r')
+        horz++;
+    else if (move == 'd')
+        vert++;
+
+    std::string s;
+    s += "Moving tile ";
+    s += _blocks.at(y).at(x);
+    s += " to the ";
+    s += move;
+    msg = s;
+
+    char tempTile = _blocks.at(y + vert).at(x + horz);
+    _blocks.at(y + vert).at(x + horz) = _blocks.at(y).at(x);
+    _blocks.at(y).at(x) = tempTile;
+
+    //were checking the tile matches here as this is the game logic flow
+    //checkCombos();
+}
+
+void Level::moveTileCommand(int x, int y, char move, std::string &msg) {
+    //check to make sure nothing is being moved out of bounds
+    if ((move == 'l' && x > 0) || (move == 'u' && y > 0) || (move == 'd' && y < _height - 1) || (move == 'r' && x < _width - 1)) {
+        //msg = "Move is OK.";
+        moveTile(x, y, move, msg);
+    } else {
+        msg = "You've tried to move a tile out of bounds.";
     }
 }
 

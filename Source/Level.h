@@ -12,11 +12,13 @@ private:
 	char createTile(int);
     char createTileFake(int);
 	void checkCombos();
-	int checkTile(int, int, char, int);
+	void checkTile(int, int, char, int, int, int&);
+	void moveTile(int, int, char, std::string&);
 public:
 	Level();
 	Level(int x, int y);
 	~Level();
 
 	std::vector<char> getRow(int);
+	void moveTileCommand(int, int, char, std::string&);
 };

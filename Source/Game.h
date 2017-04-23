@@ -11,6 +11,8 @@ private:
 
     void getInput();
 	void processInput(std::string);
+	void processCommand(std::string);
+	void processMove(std::string);
     void topBar();
     void bottomBar();
     void gamePanel();
