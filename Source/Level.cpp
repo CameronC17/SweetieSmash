@@ -62,7 +62,8 @@ void Level::generateBlocks() {
 }
 
 void Level::moveTile(int x, int y, char move, std::string &msg) {
-    int vert, horz = 0;
+    int vert = 0;
+    int horz = 0;
     if (move == 'l')
         horz--;
     else if (move == 'u')
@@ -84,7 +85,7 @@ void Level::moveTile(int x, int y, char move, std::string &msg) {
     _blocks.at(y).at(x) = tempTile;
 
     //were checking the tile matches here as this is the game logic flow
-    //checkCombos();
+    checkCombos();
 }
 
 void Level::moveTileCommand(int x, int y, char move, std::string &msg) {
