@@ -1,7 +1,7 @@
 #define CTRL_CHAR '-'
 #define MSG_SPACE 58
 #define ROW_SPACE 60
-#define CLEAR_LINE 20
+#define CLEAR_LINE 60
 
 #include "Game.h"
 #include <iostream>
@@ -25,10 +25,16 @@ void Game::processInput(std::string input) {
     if (input.at(0) == CTRL_CHAR) {
         processCommand(input);
     } else {
-        if (input.size() == 4)
-            processMove(input);
-        else
+        if (input.size() == 4) {
+            if (!_lvl.isLocked()) {
+                processMove(input);
+            } else {
+                _msg = "Level locked, acknowledge chain to cont (-n).";
+            }
+        }
+        else {
             _msg = "Wrong entry format. Should be 4 chars.";
+        }
     }
     draw();
 }
@@ -55,7 +61,12 @@ void Game::processCommand(std::string command) {
     if (command == "-r") {
         _msg = "Reset command. New game started.";
         newLevel();
-    } else {
+    } else if (command == "-n") {
+        _msg = "Moving on...";
+        _lvl.unlock();
+    }
+
+    else {
         _msg = "Unknown command. Please try again.";
     }
 }

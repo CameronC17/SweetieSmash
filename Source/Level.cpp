@@ -27,15 +27,19 @@ void Level::checkCombos() {
             checkTile(x, y, tile, 1, 0, chain);
             if (chain > 2) {
                 for (int i = 0; i < chain; i++) {
+                    _clearedTiles.push_back(std::make_pair(x, y));
                     _blocks.at(y).at(x + i) = '$';
                 }
+                _locked = true;
             } else {
                 chain = 0;
                 checkTile(x, y, tile, 0, 1, chain);
                 if (chain > 2) {
                     for (int i = 0; i < chain; i++) {
+                        _clearedTiles.push_back(std::make_pair(x, y));
                         _blocks.at(y + i).at(x) = '$';
                     }
+                    _locked = true;
                 }
             }
         }
@@ -96,6 +100,19 @@ void Level::moveTileCommand(int x, int y, char move, std::string &msg) {
     } else {
         msg = "You've tried to move a tile out of bounds.";
     }
+}
+
+void Level::clearAndFill() {
+    std::cout << "Clear and fill has a size of " << std::to_string(_clearedTiles.size());
+}
+
+void Level::unlock() {
+    clearAndFill();
+    _locked = false;
+}
+
+bool Level::isLocked() {
+    return _locked;
 }
 
 std::vector<char> Level::createRow() {
