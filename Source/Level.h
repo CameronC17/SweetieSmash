@@ -5,7 +5,7 @@
 
 class Level {
 private:
-	int _width, _height;
+	int _width, _height, _difficulty;
     std::vector<std::vector<char>> _blocks;
 	std::vector<std::pair<int, int>> _clearedTiles;
 	bool _locked = false;
@@ -20,7 +20,7 @@ private:
 	void clearAndFill();
 public:
 	Level();
-	Level(int x, int y);
+	Level(int, int, int);
 	~Level();
 
 	std::vector<char> getRow(int);

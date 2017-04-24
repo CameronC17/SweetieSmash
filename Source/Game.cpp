@@ -9,8 +9,10 @@
 #include <sstream>
 
 Game::Game() {
+    //change these later :)
     _width = 3;
     _height = 3;
+    _difficulty = 3;
 }
 
 void Game::getInput() {
@@ -72,7 +74,7 @@ void Game::processCommand(std::string command) {
 }
 
 void Game::newLevel() {
-    _lvl = Level(_width, _height);
+    _lvl = Level(_width, _height, 3);
     draw();
 }
 

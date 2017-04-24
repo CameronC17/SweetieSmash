@@ -7,7 +7,7 @@
 Level::Level() {
 }
 
-Level::Level(int x, int y) : _width(x), _height(y) {
+Level::Level(int x, int y, int diff) : _width(x), _height(y), _difficulty(diff) {
     generateBlocks();
 }
 
@@ -27,7 +27,7 @@ void Level::checkCombos() {
             checkTile(x, y, tile, 1, 0, chain);
             if (chain > 2) {
                 for (int i = 0; i < chain; i++) {
-                    _clearedTiles.push_back(std::make_pair(x, y));
+                    _clearedTiles.push_back(std::make_pair(x + i, y));
                     _blocks.at(y).at(x + i) = '$';
                 }
                 _locked = true;
@@ -36,7 +36,7 @@ void Level::checkCombos() {
                 checkTile(x, y, tile, 0, 1, chain);
                 if (chain > 2) {
                     for (int i = 0; i < chain; i++) {
-                        _clearedTiles.push_back(std::make_pair(x, y));
+                        _clearedTiles.push_back(std::make_pair(x, y + i));
                         _blocks.at(y + i).at(x) = '$';
                     }
                     _locked = true;
@@ -103,7 +103,18 @@ void Level::moveTileCommand(int x, int y, char move, std::string &msg) {
 }
 
 void Level::clearAndFill() {
-    std::cout << "Clear and fill has a size of " << std::to_string(_clearedTiles.size());
+    //sorting vector of pairs based on second parameter
+    // std::sort(_clearedTiles.begin(), _clearedTiles.end(), [](std::pair<int, int> &left, std::pair<int, int> &right) {
+    //     return left.second < right.second;
+    // });
+
+    //do points and stuff here
+    for (size_t i = 0; i < _clearedTiles.size(); i++) {
+        //std::cout << "first: " << _clearedTiles.at(i).first << " second: " << _clearedTiles.at(i).second << std::endl;
+        _blocks.at(_clearedTiles.at(i).second).at(_clearedTiles.at(i).first) = createTile(_difficulty);
+    }
+
+    _clearedTiles.clear();
 }
 
 void Level::unlock() {

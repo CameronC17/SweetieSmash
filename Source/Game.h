@@ -5,7 +5,7 @@
 
 class Game {
 private:
-	int _width, _height;
+	int _width, _height, _difficulty;
 	Level _lvl;
 	std::string _msg;
 
